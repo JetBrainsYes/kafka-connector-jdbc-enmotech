@@ -103,7 +103,7 @@ public class SchemaUtil {
             }
             return topics;
         }
-        int temp = random.nextInt(100);
+        int temp = (random.nextInt(100)+1);
         topics = new String[temp];
         for (int i = 0; i < temp; i++) {
             topics[i] = prefix+RandomStringUtils.random(6,TopicHouse);
