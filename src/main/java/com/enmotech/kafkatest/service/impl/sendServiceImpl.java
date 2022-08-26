@@ -3,6 +3,7 @@ package com.enmotech.kafkatest.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.enmotech.kafkatest.pojo.JsonDemo;
+import com.enmotech.kafkatest.pojo.LogMessage;
 import com.enmotech.kafkatest.pojo.SendRequest;
 import com.enmotech.kafkatest.service.sendService;
 import com.enmotech.kafkatest.util.SchemaUtil;
@@ -10,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * com.enmotech.kafkatest.service.impl
@@ -29,6 +33,8 @@ public class sendServiceImpl implements sendService {
     String message;
     //记录数据ID
     int count;
+
+    Map<String,Integer> topicMap;
     @Autowired
     private KafkaTemplate<String, String> template;
 
@@ -45,34 +51,58 @@ public class sendServiceImpl implements sendService {
     }
 
     @Override
-    public void sendByTime(int time,int frequency,String[] topics) {
+    public Map<String,Integer> sendByTime(Integer time,Integer frequency,String[] topics) {
+        topicMap = new HashMap<String, Integer>();
+        for (int i = 0; i < topics.length; i++) {
+            topicMap.put(topics[i],0);
+        }
         long l = System.currentTimeMillis();
         long target = l+(time-1)*1000;
-        while (l<target){
-            sendByFrequency(frequency,topics);
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        //当未指定每秒数据量时
+        if (frequency == null){
+            while (l<target){
+                int temp = (int) (Math.random()*(topics.length));
+                send(count,2,topics[temp]);
+                topicMap.put(topics[temp],(topicMap.get(topics[temp])+1));
+                count++;
+                l = System.currentTimeMillis();
             }
-            l = System.currentTimeMillis();
+        }else {
+            while (l < target) {
+                sendDataCircularly(frequency,topics,topicMap);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                l = System.currentTimeMillis();
+            }
         }
-        //return sendByFrequency(request);
+        return topicMap;
     }
 
     @Override
-    public void sendByFrequency(int frequency,String[] topics) {
-        /*while (sb<request.getFrequency()){
-            send(count,2);
+    public Map<String, Integer> sendByFrequency(int frequency, String[] topics) {
+        topicMap = new HashMap<String, Integer>();
+        for (int i = 0; i < topics.length; i++) {
+            topicMap.put(topics[i],0);
+        }
+        /*for (int i = 0; i < frequency; i++) {
+            int temp = (int) (Math.random()*(topics.length));
+            send(count,2,topics[temp]);
+            topicMap.put(topics[temp],(topicMap.get(topics[temp])+1));
             count++;
-            sb++;
         }*/
+        sendDataCircularly(frequency,topics,topicMap);
+        return topicMap;
+    }
+
+    public void sendDataCircularly(int frequency,String[] topics,Map<String,Integer> map){
         for (int i = 0; i < frequency; i++) {
             int temp = (int) (Math.random()*(topics.length));
             send(count,2,topics[temp]);
+            topicMap.put(topics[temp],(topicMap.get(topics[temp])+1));
             count++;
         }
-        //return "本次生成的topic数量为："+topics.length+"\n"+"生成的topic名称为"+topics.toString();
     }
-
 }

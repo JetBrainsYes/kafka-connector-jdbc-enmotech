@@ -2,6 +2,7 @@ package com.enmotech.kafkatest.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.enmotech.kafkatest.pojo.JsonDemo;
+import com.enmotech.kafkatest.pojo.LogMessage;
 import com.enmotech.kafkatest.pojo.SendRequest;
 import com.enmotech.kafkatest.service.sendService;
 import com.enmotech.kafkatest.util.SchemaUtil;
@@ -11,6 +12,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * com.enmotech.kafkatest.controller
@@ -32,12 +34,18 @@ public class demo {
     SchemaUtil schemaUtil;
     //计算数据数量
     int count = 0;
+    //随机生成topic参数
     String[] topics;
     String prefix;
+
+    long beginTime;
+    long endTime;
+    String message;
 
 
     @PostMapping("/send")
     public String send(@RequestBody SendRequest request){
+        beginTime = System.currentTimeMillis();
         if (request.getTopics()!=null){
             topics = request.getTopics();
         }else if (prefix == null ||!prefix.equals(request.getTopic_prefix())){
@@ -45,10 +53,16 @@ public class demo {
             topics = schemaUtil.getRandomTopics(prefix,request.getTopic_quantity());
         }
         if (request.getTime() ==null){
-            sendServiceImpl.sendByFrequency(request.getFrequency(),topics);
+            Map<String, Integer> map = sendServiceImpl.sendByFrequency(request.getFrequency(), topics);
+            endTime = System.currentTimeMillis();
+            message = new LogMessage(map,beginTime,endTime,"按数量发送").toString();
+            log.info("测试结果：{}",message);
             return "本次生成的topic数量为："+topics.length+"\n"+"生成的topic名称为"+Arrays.toString(topics);
         }
-        sendServiceImpl.sendByTime(request.getTime(), request.getFrequency(), topics);
+        Map<String, Integer> map = sendServiceImpl.sendByTime(request.getTime(), request.getFrequency(), topics);
+        endTime = System.currentTimeMillis();
+        message = new LogMessage(map,beginTime,endTime,"按时间发送").toString();
+        log.info("测试结果：{}",message);
         return "本次生成的topic数量为："+topics.length+"\n"+"生成的topic名称为"+ Arrays.toString(topics);
     }
 }

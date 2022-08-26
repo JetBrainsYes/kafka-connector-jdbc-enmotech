@@ -2,6 +2,8 @@ package com.enmotech.kafkatest.service;
 
 import com.enmotech.kafkatest.pojo.SendRequest;
 
+import java.util.Map;
+
 /**
  * com.enmotech.kafkatest.service
  *
@@ -12,6 +14,6 @@ import com.enmotech.kafkatest.pojo.SendRequest;
 
 public interface sendService {
     String send(int count,int target,String topic);
-    void sendByTime(int time,int frequency,String[] topics);
-    void sendByFrequency(int frequency,String[] topics);
+    Map<String,Integer> sendByTime(Integer time,Integer frequency,String[] topics);
+    Map<String, Integer> sendByFrequency(int frequency, String[] topics);
 }
