@@ -1,0 +1,51 @@
+{
+  "schema": {
+    "type": "struct",
+    "fields": [
+      {
+        "type": "int32",
+        "optional": false,
+        "field": "id"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "temperature"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "longitude"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "latitude"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "humidity"
+      },
+      {
+        "type": "int64",
+        "optional": true,
+        "name": "org.apache.kafka.connect.data.Timestamp",
+        "version": 1,
+        "field": "tabletime"
+      },
+      {
+        "type": "string",
+        "optional": true,
+        "field": "stringtime"
+      },
+      {
+        "type": "string",
+        "optional": true,
+        "field": "randomstring"
+      }
+    ],
+    "optional": false,
+    "name": "demo_table"
+  }
+}

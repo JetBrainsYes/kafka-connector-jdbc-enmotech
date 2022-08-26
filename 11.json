@@ -1,0 +1,49 @@
+{
+  "payload": {
+    "count": 500,
+    "humidity": 66.714901360572,
+    "latitude": 54.300853347141064,
+    "randomString": "好mhhikj错否ekj快好你坏k快慢j",
+    "stringtime": "1970-01-10 02:53:34",
+    "temperature": 8.688193996133569,
+    "timestamp": 0
+  },
+  "schema": {
+    "fields": [
+      {
+        "field": "id",
+        "type": "int32"
+      },
+      {
+        "field": "temperature",
+        "type": "double"
+      },
+      {
+        "field": "longitude",
+        "type": "double"
+      },
+      {
+        "field": "latitude",
+        "type": "double"
+      },
+      {
+        "field": "humidity",
+        "type": "double"
+      },
+      {
+        "field": "tabletime",
+        "type": "int64"
+      },
+      {
+        "field": "stringtime",
+        "type": "string"
+      },
+      {
+        "field": "randomstring",
+        "type": "string"
+      }
+    ],
+    "name": "demo_table",
+    "type": "struct"
+  }
+}

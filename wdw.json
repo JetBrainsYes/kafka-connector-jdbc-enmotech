@@ -1,0 +1,66 @@
+{
+  "schema": {
+    "type": "struct",
+    "fields": [
+      {
+        "type": "int32",
+        "optional": false,
+        "field": "id"
+      },
+      {
+        "type": "int32",
+        "optional": true,
+        "field": "id"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "temperature"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "longitude"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "latitude"
+      },
+      {
+        "type": "double",
+        "optional": true,
+        "field": "humidity"
+      },
+      {
+        "type": "int64",
+        "optional": true,
+        "name": "org.apache.kafka.connect.data.Timestamp",
+        "version": 1,
+        "field": "tabletime"
+      },
+      {
+        "type": "string",
+        "optional": true,
+        "field": "stringtime"
+      },
+      {
+        "type": "string",
+        "optional": true,
+        "field": "randomstring"
+      }
+    ],
+    "optional": false,
+    "name": "demo_table"
+  },
+  "payload": {
+    "id": 100,
+    "longitude":,
+    "latitude": 32.39893303229586,
+    "temperature": 34.95833275783167,
+    "humidity": 25.700237994363352,
+    "tabletime": 1276259263,
+    "stringtime": "1970-01-16 02:30:59",
+    "randomstring": "好你对你e对我k错lhk快坏快h对是g对"
+  }
+}
