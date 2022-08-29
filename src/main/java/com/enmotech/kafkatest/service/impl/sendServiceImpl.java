@@ -34,7 +34,7 @@ public class sendServiceImpl implements sendService {
     //记录数据ID
     int count;
 
-    Map<String,Integer> topicMap;
+    //Map<String,Integer> topicMap;
     @Autowired
     private KafkaTemplate<String, String> template;
 
@@ -52,7 +52,7 @@ public class sendServiceImpl implements sendService {
 
     @Override
     public Map<String,Integer> sendByTime(Integer time,Integer frequency,String[] topics) {
-        topicMap = new HashMap<String, Integer>();
+        Map<String,Integer> topicMap = new HashMap();
         for (int i = 0; i < topics.length; i++) {
             topicMap.put(topics[i],0);
         }
@@ -83,25 +83,20 @@ public class sendServiceImpl implements sendService {
 
     @Override
     public Map<String, Integer> sendByFrequency(int frequency, String[] topics) {
-        topicMap = new HashMap<String, Integer>();
+        Map<String,Integer> topicMap = new HashMap();
         for (int i = 0; i < topics.length; i++) {
             topicMap.put(topics[i],0);
         }
-        /*for (int i = 0; i < frequency; i++) {
-            int temp = (int) (Math.random()*(topics.length));
-            send(count,2,topics[temp]);
-            topicMap.put(topics[temp],(topicMap.get(topics[temp])+1));
-            count++;
-        }*/
         sendDataCircularly(frequency,topics,topicMap);
         return topicMap;
     }
 
+    @Override
     public void sendDataCircularly(int frequency,String[] topics,Map<String,Integer> map){
         for (int i = 0; i < frequency; i++) {
             int temp = (int) (Math.random()*(topics.length));
             send(count,2,topics[temp]);
-            topicMap.put(topics[temp],(topicMap.get(topics[temp])+1));
+            map.put(topics[temp],(map.get(topics[temp])+1));
             count++;
         }
     }

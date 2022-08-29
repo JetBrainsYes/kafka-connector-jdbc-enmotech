@@ -16,4 +16,5 @@ public interface sendService {
     String send(int count,int target,String topic);
     Map<String,Integer> sendByTime(Integer time,Integer frequency,String[] topics);
     Map<String, Integer> sendByFrequency(int frequency, String[] topics);
+    void sendDataCircularly(int frequency,String[] topics,Map<String,Integer> map);
 }

@@ -18,22 +18,12 @@ import java.util.Random;
  */
 @Component
 public class SchemaUtil {
-    //经纬度
-    Double longitude;
-    Double latitude;
-    //温度、湿度
-    Double temperature;
-    Double humidity;
-    //时间
-    long Timestamp;
-    String stringtime;
-    //随机字符串
-    String randomString;
+
     //生成随机数据所用的数组和类
     char[] PayloadHouse = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm','o','p','q','r','s','t','我', '你', '他', '是', '否', '对', '错', '好', '坏', '快', '慢'};
     char[] TopicHouse = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm','o','p','q','r','s','t','0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     Random random = new Random();
-    Calendar calendar = Calendar.getInstance();
+
 
     public Schema getSchema(){
         Field[] fields = Field.getFields();
@@ -50,23 +40,28 @@ public class SchemaUtil {
 
     //给payload中的属性赋值
     public void setPayload(int count, Payload payload, int target){
+        //得到日期类对象
+        Calendar calendar = Calendar.getInstance();
         //设置日期时间格式转换
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //生成随机数和随机字符串
-        longitude = random.nextDouble()*180;
-        latitude = random.nextDouble()*180;
-        //保留两位小数
-        temperature = Double.valueOf(String.format("%.2f",(random.nextDouble()*50-10)));
-        humidity = Double.valueOf(String.format("%.2f",random.nextDouble()*100));
+        //经纬度
+        Double longitude = random.nextDouble()*180;
+        Double latitude = random.nextDouble()*180;
+
+        //温度湿度，保留两位小数
+        Double temperature = Double.valueOf(String.format("%.2f",(random.nextDouble()*50-10)));
+        Double humidity = Double.valueOf(String.format("%.2f",random.nextDouble()*100));
         //对当前日期时间 随机加减月数和天数
         calendar.add(Calendar.MONTH,(random.nextInt(24)-12));
         calendar.add(Calendar.DATE,(random.nextInt(60)-30));
         calendar.add(Calendar.HOUR,(random.nextInt(24)-12));
         calendar.add(Calendar.MINUTE,(random.nextInt(120)-60));
         calendar.add(Calendar.SECOND,(random.nextInt(120)-60));
-        Timestamp = calendar.getTimeInMillis();
-        stringtime = sdf.format(Timestamp);
-        randomString = RandomStringUtils.random(20,PayloadHouse);
+        long Timestamp = calendar.getTimeInMillis();
+        String stringtime = sdf.format(Timestamp);
+        //生成随机字符串
+        String randomString = RandomStringUtils.random(20,PayloadHouse);
         int temp = random.nextInt(10);
         //随机在数据中插入null
         switch (temp){

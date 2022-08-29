@@ -28,26 +28,26 @@ public class Demo {
     sendService sendServiceImpl;
     @Autowired
     SchemaUtil schemaUtil;
-    //计算数据数量
-    int count = 0;
+
     //随机生成topic参数
     String[] topics;
     String prefix;
 
-    long beginTime;
-    long endTime;
-    String message;
-
-
     @PostMapping("/send")
     public String send(@RequestBody SendRequest request){
-        beginTime = System.currentTimeMillis();
+        String message;
+        long endTime;
+        long beginTime = System.currentTimeMillis();
+        //指定tpoic时
         if (request.getTopics()!=null){
             topics = request.getTopics();
-        }else if (prefix == null ||!prefix.equals(request.getTopic_prefix())){
+        }
+        //未指定topic，且未指定前缀或前缀未改变时
+        else if (prefix == null ||!prefix.equals(request.getTopic_prefix())){
             prefix = request.getTopic_prefix();
             topics = schemaUtil.getRandomTopics(prefix,request.getTopic_quantity());
         }
+        //未指定发送时间时
         if (request.getTime() ==null){
             Map<String, Integer> map = sendServiceImpl.sendByFrequency(request.getFrequency(), topics);
             endTime = System.currentTimeMillis();
