@@ -49,6 +49,11 @@ public class Demo {
         }
         //未指定发送时间时
         if (request.getTime() ==null){
+            if (request.getFrequency() == null){
+                message = "未指定发送时间与数据数量，无法发送数据！";
+                log.info("测试结果：{}",message);
+                return "未指定发送时间与数据数量";
+            }
             Map<String, Integer> map = sendServiceImpl.sendByFrequency(request.getFrequency(), topics);
             endTime = System.currentTimeMillis();
             message = new LogMessage(map,beginTime,endTime,"按数量发送").toString();
