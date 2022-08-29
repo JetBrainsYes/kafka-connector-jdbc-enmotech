@@ -57,7 +57,7 @@ public class sendServiceImpl implements sendService {
             topicMap.put(topics[i],0);
         }
         long l = System.currentTimeMillis();
-        long target = l+(time-1)*1000;
+        long target = l+(time)*1000;
         //当未指定每秒数据量时
         if (frequency == null){
             while (l<target){
