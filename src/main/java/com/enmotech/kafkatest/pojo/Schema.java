@@ -1,8 +1,6 @@
 package com.enmotech.kafkatest.pojo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.enmotech.kafkatest.pojo.Field;
-import org.springframework.stereotype.Component;
 
 /**
  * com.enmotech.kafkatest.controller
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @Description kafka-test
  */
 
-public class schema {
+public class Schema {
     @JSONField(ordinal = 1)
     private String type;
     //数组长度就是数据库数据字段数
@@ -23,14 +21,14 @@ public class schema {
     @JSONField(ordinal = 4)
     private String name;
 
-    public schema(String type, Field[] fields, boolean optional, String name) {
+    public Schema(String type, Field[] fields, boolean optional, String name) {
         this.type = type;
         this.fields = fields;
         this.optional = optional;
         this.name = name;
     }
 
-    public schema() {
+    public Schema() {
     }
 
     public String getType() {

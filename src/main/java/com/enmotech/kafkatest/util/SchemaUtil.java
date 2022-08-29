@@ -35,21 +35,21 @@ public class SchemaUtil {
     Random random = new Random();
     Calendar calendar = Calendar.getInstance();
 
-    public schema getSchema(){
+    public Schema getSchema(){
         Field[] fields = Field.getFields();
-        schema schema = new schema("struct",fields,false,"demo_table");
+        Schema schema = new Schema("struct",fields,false,"demo_table");
         return schema;
     }
     @Bean
     public JsonDemo getJsonDemo(){
-        schema schema = getSchema();
-        payload payload = new payload();
+        Schema schema = getSchema();
+        Payload payload = new Payload();
         JsonDemo jsondemo = new JsonDemo(schema,payload);
         return jsondemo;
     }
 
     //给payload中的属性赋值
-    public void setPayload(int count,payload payload,int target){
+    public void setPayload(int count, Payload payload, int target){
         //设置日期时间格式转换
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //生成随机数和随机字符串

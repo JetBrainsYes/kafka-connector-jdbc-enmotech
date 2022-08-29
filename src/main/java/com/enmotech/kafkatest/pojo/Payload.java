@@ -1,7 +1,5 @@
 package com.enmotech.kafkatest.pojo;
 
-import org.springframework.stereotype.Component;
-
 /**
  * com.enmotech.kafkatest.pojo
  *
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Component;
  * @Description kafka-test
  */
 
-public class payload {
+public class Payload {
     private int id;
     private Double longitude;
     private Double latitude;

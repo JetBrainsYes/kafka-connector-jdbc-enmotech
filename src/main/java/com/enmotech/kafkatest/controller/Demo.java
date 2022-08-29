@@ -1,14 +1,10 @@
 package com.enmotech.kafkatest.controller;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.enmotech.kafkatest.pojo.JsonDemo;
 import com.enmotech.kafkatest.pojo.LogMessage;
 import com.enmotech.kafkatest.pojo.SendRequest;
 import com.enmotech.kafkatest.service.sendService;
 import com.enmotech.kafkatest.util.SchemaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -27,7 +23,7 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-public class demo {
+public class Demo {
     @Autowired
     sendService sendServiceImpl;
     @Autowired
