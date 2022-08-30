@@ -54,26 +54,29 @@ public class SendServiceImpl implements SendService {
         for (int i = 0; i < topics.length; i++) {
             topicMap.put(topics[i],0);
         }
-        long l = System.currentTimeMillis();
-        long target = l+(time)*1000;
+        long begin = System.currentTimeMillis();
+        long target = begin+(time)*1000;
         //当未指定每秒数据量时
         if (frequency == null){
-            while (l<target){
+            while (begin<target){
                 int temp = (int) (Math.random()*(topics.length));
                 send(count,2,topics[temp]);
                 topicMap.put(topics[temp],(topicMap.get(topics[temp])+1));
                 count++;
-                l = System.currentTimeMillis();
+                begin = System.currentTimeMillis();
             }
         }else {
-            while (l < target) {
+            while (begin < target) {
+                long sendBefore = System.currentTimeMillis();
                 sendDataCircularly(frequency,topics,topicMap);
+                long sendAfter = System.currentTimeMillis()-sendBefore;
                 try {
-                    Thread.sleep(1000);
+
+                    Thread.sleep(1000-sendAfter);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                l = System.currentTimeMillis();
+                begin = System.currentTimeMillis();
             }
         }
         return topicMap;
