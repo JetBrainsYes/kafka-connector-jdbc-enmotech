@@ -3,9 +3,7 @@ package com.enmotech.kafkatest.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.enmotech.kafkatest.pojo.JsonDemo;
-import com.enmotech.kafkatest.pojo.LogMessage;
-import com.enmotech.kafkatest.pojo.SendRequest;
-import com.enmotech.kafkatest.service.sendService;
+import com.enmotech.kafkatest.service.SendService;
 import com.enmotech.kafkatest.util.SchemaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,7 @@ import java.util.Map;
  */
 @Component
 @Slf4j
-public class sendServiceImpl implements sendService {
+public class SendServiceImpl implements SendService {
     @Autowired
     SchemaUtil schemaUtil;
     //数据库数据对象
@@ -100,4 +98,5 @@ public class sendServiceImpl implements sendService {
             count++;
         }
     }
+
 }

@@ -1,7 +1,7 @@
 package com.enmotech.kafkatest.controller;
 import com.enmotech.kafkatest.pojo.LogMessage;
 import com.enmotech.kafkatest.pojo.SendRequest;
-import com.enmotech.kafkatest.service.sendService;
+import com.enmotech.kafkatest.service.SendService;
 import com.enmotech.kafkatest.util.SchemaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Map;
 @Slf4j
 public class Demo {
     @Autowired
-    sendService sendServiceImpl;
+    SendService sendServiceImpl;
     @Autowired
     SchemaUtil schemaUtil;
 
@@ -41,11 +41,13 @@ public class Demo {
         //指定tpoic时
         if (request.getTopics()!=null){
             topics = request.getTopics();
+            schemaUtil.creatTopic(topics);
         }
         //未指定topic，且未指定前缀或前缀未改变时
         else if (prefix == null ||!prefix.equals(request.getTopic_prefix())){
             prefix = request.getTopic_prefix();
             topics = schemaUtil.getRandomTopics(prefix,request.getTopic_quantity());
+            schemaUtil.creatTopic(topics);
         }
         //未指定发送时间时
         if (request.getTime() ==null){

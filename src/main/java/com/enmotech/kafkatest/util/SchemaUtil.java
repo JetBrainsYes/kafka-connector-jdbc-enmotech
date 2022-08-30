@@ -2,12 +2,18 @@ package com.enmotech.kafkatest.util;
 
 import com.enmotech.kafkatest.pojo.*;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.kafka.clients.admin.AdminClient;
+import org.apache.kafka.clients.admin.ListTopicsResult;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.logging.log4j.util.PropertiesUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * com.enmotech.kafkatest.util
@@ -23,6 +29,10 @@ public class SchemaUtil {
     char[] PayloadHouse = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm','o','p','q','r','s','t','我', '你', '他', '是', '否', '对', '错', '好', '坏', '快', '慢'};
     char[] TopicHouse = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm','o','p','q','r','s','t','0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     Random random = new Random();
+
+    //操作kafka中topic的对象
+    @Autowired
+    private AdminClient client;
 
 
     public Schema getSchema(){
@@ -109,6 +119,32 @@ public class SchemaUtil {
         for (int i = 0; i < temp; i++) {
             topics[i] = prefix+RandomStringUtils.random(6,TopicHouse);
         }
+        creatTopic(topics);
         return topics;
+    }
+
+    //创建、初始化真实的topics
+    public void creatTopic(String[] topics) {
+        //当client正确创建了，开始创建新的topic
+        if (client != null) {
+            try {
+                //获取kafka服务器中的topics集合
+                ListTopicsResult listTopicsResult = client.listTopics();
+                //获取topics名称
+                Set<String> names = listTopicsResult.names().get();
+                //当kafka服务器中不存在指定的topic时，创建新的topic
+                Collection newTopics = new ArrayList<NewTopic>();
+                for (int i = 0; i < topics.length; i++) {
+                    if (!names.contains(topics[i])) {
+                        newTopics.add(new NewTopic(topics[i], 1, (short) 1));
+                    }
+                }
+                client.createTopics(newTopics);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
