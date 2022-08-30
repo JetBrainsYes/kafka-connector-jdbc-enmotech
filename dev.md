@@ -38,13 +38,13 @@ value-serializer: Xxx.Xxx.StringSerializer
  指定数据发送到kafka中的哪些topic，可写多个topic(数组形式)，如果指定的topic不存在，会自动创建topic
  "topics":
  随机生成topic，指定生成的topic数量
-    "topic_quantity":
-    随机生成topic，指定生成的topic前缀
-    "topic_prefix":
+ "topic_quantity":
+ 随机生成topic，指定生成的topic前缀
+ "topic_prefix":
 }
 ```
 
-### 参数配置
+#### 参数配置
 
 以上参数可以根据需要选择配置，关于参数配置做以下说明：
 
@@ -53,6 +53,7 @@ value-serializer: Xxx.Xxx.StringSerializer
 3. 随机生成topic时，如果没有配置`"topic_quantity"`和`"topic_prefix"`，则会使用默认前缀"topic_"，并生成随机数量的topic(范围可在util包下的工具类中修改)
 4. web应用启动后，使用相同的`"topic_prefix"`重复请求，只会生成一组topic，之后的请求都会使用这组topic。只有修改`"topic_prefix"`后，才会重新生成一组新的topic
 5. `"time"`与`"frequency"`至少需要配置一个，否则无法发送数据
+6. 当指定了`"time"`属性，而未指定`"frequency"`属性时，将会在发送时间内一直发送数据
 
 ### service包
 
@@ -116,7 +117,7 @@ payload：数据字段的实际值
 }
 ```
 
-### SendRequest
+#### SendRequest
 
 向web应用发送请求时携带的请求体对象
 
@@ -129,13 +130,13 @@ payload：数据字段的实际值
  指定数据发送到kafka中的哪些topic，可写多个topic(数组形式)，如果指定的topic不存在，会自动创建topic
  "topics":
  随机生成topic，指定生成的topic数量
-    "topic_quantity":
-    随机生成topic，指定生成的topic前缀
-    "topic_prefix":
+ "topic_quantity":
+ 随机生成topic，指定生成的topic前缀
+ "topic_prefix":
 }
 ```
 
-### LogMessage
+#### LogMessage
 
 日志对象，每一次请求结束后生成日志对象，并输出日志到控制台
 
@@ -150,6 +151,16 @@ payload：数据字段的实际值
 ![image-20220829120614402](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220829120614402.png)
 
 ![image-20220829120637830](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220829120637830.png)
+
+![image-20220830174715036](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220830174715036.png)
+
+
+
+### Config包
+
+存放Kafka配置相关，实现配置文件读取，返回操作Topic的对象
+
+![image-20220830174852830](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220830174852830.png)
 
 ## 编译
 
