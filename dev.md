@@ -152,15 +152,40 @@ payload：数据字段的实际值
 
 ![image-20220829120637830](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220829120637830.png)
 
-![image-20220830174715036](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220830174715036.png)
+使用Kafka提供的AdminClient类型对象创建Topic：
 
+![image-20220831165550573](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220831165550573.png)
 
+AdminClient使用完之后可以手动关闭，如果没有关闭，在一段时间没有收到请求后，服务器会自动关闭空闲的AdminClient，这个最大空闲时间可以通过以下参数配置：
+
+```properties
+#可以配置在broker和客户端，broker和客户端都会关闭空闲太久的连接，默认值为540000ms
+connections.max.idle.ms
+```
+
+ 
 
 ### Config包
 
 存放Kafka配置相关，实现配置文件读取，返回操作Topic的对象
 
 ![image-20220830174852830](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220830174852830.png)
+
+KafkaProperties类被@ConfigurationProperties注解标记，会将配置文件中的属性值赋给被标记类中的属性
+
+![image-20220831161042313](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220831161042313.png)
+
+使用注解开启配置文件文件与java bean的绑定：
+
+```java
+@EnableConfigurationProperties(KafkaProperties.class)
+```
+
+之后，SpringBoot会自动读取resource包下的application前缀的配置文件，并使用其中的属性创建一个KafkaProperties
+
+使用KafkaProperties得到操作Kafka中Topic的对象：AdminClient
+
+![image-20220831163233931](https://raw.githubusercontent.com/a525076133/kafka-images/main/image-20220831163233931.png)
 
 ## 编译
 
