@@ -1,5 +1,6 @@
 package com.enmotech.kafkatest.util;
 
+import com.enmotech.kafkatest.config.KafkaConfig;
 import com.enmotech.kafkatest.pojo.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.kafka.clients.admin.AdminClient;
@@ -33,6 +34,8 @@ public class SchemaUtil {
     //操作kafka中topic的对象
     @Autowired
     private AdminClient client;
+    @Autowired
+    private KafkaConfig config;
 
 
     public Schema getSchema(){
@@ -145,6 +148,9 @@ public class SchemaUtil {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
+        }else {
+            client = config.getAdminClient();
+            creatTopic(topics);
         }
     }
 }
